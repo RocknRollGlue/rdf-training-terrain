@@ -1,0 +1,1 @@
+player addEventHandler ["Respawn", {[] execVM "group_respawn.sqf"}];

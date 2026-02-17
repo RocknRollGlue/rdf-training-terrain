@@ -1,0 +1,36 @@
+author = "Rockn Roll Glue";
+OnLoadName = "Training";
+OnLoadMission = "Training until you get bored";
+enableDebugConsole = 0;
+
+#include <configs\cfgMedicalSim.hpp>
+#include <configs\cfgWoundOptions.hpp>
+
+class CfgFunctions {
+	class rdf {
+		class CommonFunctions {
+			class addActionToObjectIfUnique {
+				file = "functions\common\addActionToObjectIfUnique.sqf";
+			};
+			class addTeleportAction {
+				file = "functions\common\addTeleportAction.sqf";
+			};
+			class teleportSetPos {
+				file = "functions\common\teleportSetPos.sqf";
+			};
+		};
+		class MedicalFunctions {
+			class initMedicalSim {
+				file = "functions\medical\initMedicalSim.sqf";
+			};
+			
+			class addInjuries {
+				file = "functions\medical\addInjuries.sqf";
+			};
+
+			class removeInjuries {
+ 				file = "functions\medical\removeInjuries.sqf";
+			};
+		};
+	};
+};
