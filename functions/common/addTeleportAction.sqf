@@ -4,12 +4,12 @@
  Parameters:
    _object - The object to attach the action to
   _displayName - The text shown in the scroll wheel menu
-   _markerName - The marker name to teleport to
+  _markerName - The marker name to teleport to (or a variable name that resolves to a marker name)
    _actionId - Optional unique action ID (defaults to sanitized marker name)
 
  Usage examples (object init):
    // Single teleport action
-   if (hasInterface) then { [this, "Go to Gun Range", "gun_range_marker"] call rdf_fnc_addTeleportAction; };
+ [this, "Go to Gun Range", "gun_range_marker"] call rdf_fnc_addTeleportAction;
    
    // Multiple teleport actions on same object
    if (hasInterface) then {
@@ -18,61 +18,63 @@
        [this, "Go to Training Area", "training_marker"] call rdf_fnc_addTeleportAction;
    };
 
- The action uses remoteExec to call the server-side teleport function so the
- position change is authoritative.
+The action uses remoteExecCall to run the teleport function where the unit is
+local (clients for players, server for AI).
 */
 
 params ["_object", "_displayName", "_markerName", ["_actionId", ""]];
 
-// Generate action ID from marker name if not provided
-if (_actionId == "") then {
-    _actionId = "teleportTo_" + _markerName;
+if (!hasInterface) exitWith { false };
+if (isNull _object) exitWith { false };
+if !(_displayName isEqualType "") exitWith { false };
+if !(_markerName isEqualType "") exitWith { false };
+
+private _sanitizedMarker = toLower _markerName;
+_sanitizedMarker = (_sanitizedMarker splitString " -") joinString "_";
+
+if (_actionId isEqualTo "") then {
+  _actionId = format ["rdf_tp_%1", _sanitizedMarker];
 };
 
+private _existingActionIds = _object getVariable ["rdf_teleport_action_ids", []];
+if (_actionId in _existingActionIds) exitWith { false };
 
-private _action = [
-    _actionId, // internal name (unique per marker)
-    _displayName, // displayed name
-    "", // icon (none)
-    { // action code — when selected ACE provides _this; we pass the caller (select 2) and the marker pos to server
-        params ["_target", "_player", "_params"];
-        [ _player, markerPos (_params select 0) ] remoteExec ["rdf_fnc_teleportSetPos", 2, false];
-    },
-    { true }, // show condition
-    {}, // submenu condition
-    [_markerName], // pass marker name as params
-    [0,0,0], // shortcut
-    10 // priority
-] call ace_interact_menu_fnc_createAction;
+_object addAction [
+  _displayName,
+  {
+    params ["_target", "_caller", "_actionId", "_args"];
+    _args params ["_markerToken"];
 
-[_object, _action, []] call rdf_fnc_addActionToObjectIfUnique;
+    private _markerRef = _markerToken;
 
+    if (_markerRef isEqualType "" && { markerShape _markerRef == "" }) then {
+      private _resolved = missionNamespace getVariable [_markerRef, ""];
+      if (_resolved isEqualType "" && { markerShape _resolved != "" }) then {
+        _markerRef = _resolved;
+      };
+    };
 
+    if !(_markerRef isEqualType "") exitWith {
+      systemChat "Teleport marker is invalid.";
+    };
 
-// // Track actions locally per-client to avoid duplicates
-// private _existingActionNames = _object getVariable ["rdf_scroll_action_names", []];
-// if (_actionId in _existingActionNames) exitWith { false };
+    if (markerShape _markerRef == "") exitWith {
+      systemChat format ["Teleport marker '%1' not found.", _markerRef];
+    };
 
-// private _actionIdLocal = _object addAction [
-//   _displayName,
-//   {
-//     params ["_target", "_caller", "_actionId", "_args"];
-//     [ _caller, markerPos (_args select 0) ] remoteExec ["rdf_fnc_teleportSetPos", 2, false];
-//   },
-//   [_markerName],
-//   1.5,
-//   false,
-//   false,
-//   "",
-//   "true",
-//   5,
-//   false,
-//   "",
-//   "",
-//   _actionId
-// ];
+    private _pos = getMarkerPos _markerRef;
+    [_caller, _pos] remoteExecCall ["rdf_fnc_teleportSetPos", _caller];
+  },
+  [_markerName],
+  1.5,
+  true,
+  true,
+  "",
+  "true",
+  5
+];
 
-// _object setVariable ["rdf_scroll_action_names", _existingActionNames + [_actionId], false];
-// _object setVariable ["rdf_scroll_action_ids", (_object getVariable ["rdf_scroll_action_ids", []]) + [_actionIdLocal], false];
+_existingActionIds pushBack _actionId;
+_object setVariable ["rdf_teleport_action_ids", _existingActionIds, false];
 
-// true
+true
