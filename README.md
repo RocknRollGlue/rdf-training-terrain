@@ -50,3 +50,28 @@ Players respawn at a map marker that corresponds to their group callsign, keepin
   - Callsign is lowercased, spaces and dashes are converted to underscores, and `respawn_` is prepended.
   - Example: group callsign **Alpha 1-1** → marker name **`respawn_alpha_1_1`**.
 - **Fallback chain**: if the group-specific marker does not exist the script falls back to a generic **`respawn`** marker; if neither exists a hint is shown to the player.
+
+### Training Facilities — Primary Base
+
+The primary training base contains the following permanent facilities:
+
+- **Skydebane** — pistol and riffel (rifle) firing ranges
+- **Dyse** — jet/nozzle range
+- **SYHJ / SAN** — combat lifesaver / medical training area
+- **EOD** — explosive ordnance disposal training area
+- **CQB zone** — close-quarters battle range
+- **GRK** — grenade range / grenadier training area
+- **KTJ land course** — close-combat / combat-shooting course located at the primary base
+
+### Advanced Training Courses (Teleport Locations)
+
+The following advanced courses are accessible via teleport actions placed on objects in the mission:
+
+- **KTJ Land** — advanced close-combat / combat-shooting land course
+- **KTJ Luft** — aerial / air-assault close-combat course
+- **LMT** — light machine-gun trainer course
+- **FINSK KORT** — Finnish-style short obstacle/shooting course
+- **FINSK MELLEM** — Finnish-style medium obstacle/shooting course
+- **FINSK LANG** — Finnish-style long obstacle/shooting course
+- **STINGER** — MANPADS / anti-air training course
+- **SPIKE** — anti-tank guided missile training course
