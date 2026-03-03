@@ -1,13 +1,13 @@
 # RDF Training Terrain
 
-Arma 3 training mission maintained by the **RDF** (Ranger Detachment Force) unit.  This repository is the authoritative source of truth for the training mission — instructors and server admins use it to verify and approve the version that runs on the training server.
+Arma 3 training mission created for the **RDF** unit.  This repository is the authoritative source of truth for the training mission — instructors and server admins use it to verify and approve the version that runs on the server.
 
 ## Intended Audience
 
 | Role | Purpose |
 |------|---------|
 | **Instructors** | Review mission configuration and features before running a training event. |
-| **Server Admins** | Verify / approve the mission version before deployment to the training server. |
+| **Server Admins** | Verify / approve the mission version before deployment to the server. |
 
 ## Repository Layout
 
@@ -55,23 +55,21 @@ Players respawn at a map marker that corresponds to their group callsign, keepin
 
 The primary training base contains the following permanent facilities:
 
-- **Skydebane** — pistol and riffel (rifle) firing ranges
-- **Dyse** — jet/nozzle range
-- **SYHJ / SAN** — combat lifesaver / medical training area
-- **EOD** — explosive ordnance disposal training area
-- **CQB zone** — close-quarters battle range
-- **GRK** — grenade range / grenadier training area
-- **KTJ land course** — close-combat / combat-shooting course located at the primary base
+- **Skydebane**
+- **Dyse**
+- **SYHJ / SAN**
+- **EOD**
+- **CQB zone**
+- **GRK**
+- **KTJ land course**
 
 ### Advanced Training Courses (Teleport Locations)
 
 The following advanced courses are accessible via teleport actions placed on objects in the mission:
 
-- **KTJ Land** — advanced close-combat / combat-shooting land course
-- **KTJ Luft** — aerial / air-assault close-combat course
-- **LMT** — light machine-gun trainer course
-- **FINSK KORT** — Finnish-style short obstacle/shooting course
-- **FINSK MELLEM** — Finnish-style medium obstacle/shooting course
-- **FINSK LANG** — Finnish-style long obstacle/shooting course
-- **STINGER** — MANPADS / anti-air training course
-- **SPIKE** — anti-tank guided missile training course
+- **KTJ Land**
+- **KTJ Luft**
+- **LMT**
+- **FINSK KORT/MELLEM/LANG**
+- **STINGER**
+- **SPIKE**
