@@ -18,6 +18,7 @@ rdf-training-terrain/
 ├── init.sqf                 # Server/client init — bootstraps all mission systems
 ├── initPlayerLocal.sqf      # Per-client init — wires up player-local event handlers
 ├── group_respawn.sqf        # Group-based respawn positioning logic
+├── start_server.sh          # Shell script to launch the Arma 3 dedicated server
 ├── configs/
 │   ├── cfgMedicalSim.hpp    # Medical simulation station and patient definitions
 │   └── cfgWoundOptions.hpp  # Wound parameter presets used by the medical sim
@@ -25,6 +26,41 @@ rdf-training-terrain/
     ├── common/              # Shared utility functions (actions, teleport helpers)
     └── medical/             # Medical simulation functions (init, addInjuries, removeInjuries)
 ```
+
+## Starting the Server
+
+`start_server.sh` launches the Arma 3 dedicated server process.  All settings are controlled via environment variables so the script can be used without modification.
+
+### Prerequisites
+
+- A working Arma 3 dedicated server installation (e.g. installed via SteamCMD to `/opt/arma3/`).
+- A `server.cfg` file with the desired server name, password, and mission rotation.
+- The mission PBO placed in the server's `mpmissions/` directory.
+
+### Quick start
+
+```bash
+# Using default paths (/opt/arma3/arma3server and /opt/arma3/config/server.cfg)
+./start_server.sh
+
+# Override executable and config location
+A3_EXECUTABLE=/opt/arma3/arma3server_x64 \
+A3_SERVER_CFG=/home/arma3/config/server.cfg \
+./start_server.sh
+```
+
+### Environment variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `A3_EXECUTABLE` | `/opt/arma3/arma3server` | Path to the Arma 3 server binary. |
+| `A3_CONFIG_DIR` | `/opt/arma3/config` | Directory used to resolve the default config path. |
+| `A3_SERVER_CFG` | `$A3_CONFIG_DIR/server.cfg` | Path to the server configuration file. |
+| `A3_PROFILE` | `rdf` | Server profile name (`-name=` flag). |
+| `A3_PORT` | `2302` | UDP port the server listens on. |
+| `A3_MODS` | *(empty)* | Semicolon-separated list of client+server mods (e.g. `@CBA_A3;@ACE`). |
+| `A3_SERVER_MODS` | *(empty)* | Semicolon-separated list of server-only mods. |
+| `A3_EXTRA_FLAGS` | *(empty)* | Any additional flags passed verbatim to the executable. |
 
 ## Features
 
