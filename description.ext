@@ -6,6 +6,42 @@ enableDebugConsole = 0;
 #include <configs\cfgMedicalSim.hpp>
 #include <configs\cfgWoundOptions.hpp>
 
+class CfgRDFVehicleSpawners {
+	class AdvAntiTank {
+		classList[] = {
+			"rhs_btr70_vdv",
+			"rhs_t80"
+		};
+	};
+};
+
+class CfgRDFMortarSpawners {
+	class MortarRange {
+		vehicleClasses[] = {
+			"UK3CB_CHD_O_BTR70",
+			"UK3CB_CHD_O_BMD1",
+			"UK3CB_CHD_O_T55"
+		};
+		class InfantryGroups {
+			class Group0 {
+				label = "Infantry";
+				unitClasses[] = {
+					"UK3CB_CHD_O_SL",
+					"UK3CB_CHD_O_RIF_3"
+				};
+			};
+		};
+		class SpawnPoints {
+			class Point1 { name = "spawn_adv_arty_1"; label = "Location 1"; };
+			class Point2 { name = "spawn_adv_arty_2"; label = "Location 2"; };
+			class Point3 { name = "spawn_adv_arty_3"; label = "Location 3"; };
+			class Point4 { name = "spawn_adv_arty_4"; label = "Location 4"; };
+			class Point5 { name = "spawn_adv_arty_5"; label = "Location 5"; };
+			class Point6 { name = "spawn_adv_arty_6"; label = "Location 6"; };
+		};
+	};
+};
+
 class CfgFunctions {
 	class rdf {
 		class CommonFunctions {
@@ -14,6 +50,18 @@ class CfgFunctions {
 			};
 			class addTeleportAction {
 				file = "functions\common\addTeleportAction.sqf";
+			};
+			class addAdvAntiTankSpawnAction {
+				file = "functions\common\addAdvAntiTankSpawnAction.sqf";
+			};
+			class addMortarRangeSpawnAction {
+				file = "functions\common\addMortarRangeSpawnAction.sqf";
+			};
+			class spawnGroupsAtPoints {
+				file = "functions\common\spawnGroupsAtPoints.sqf";
+			};
+			class spawnVehiclesAtPoints {
+				file = "functions\common\spawnVehiclesAtPoints.sqf";
 			};
 			class teleportSetPos {
 				file = "functions\common\teleportSetPos.sqf";
