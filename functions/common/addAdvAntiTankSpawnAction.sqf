@@ -20,8 +20,6 @@ private _mainAction = [
 private _classList = getArray (missionConfigFile >> "CfgRDFVehicleSpawners" >> "AdvAntiTank" >> "classList");
 if !(_classList isEqualType []) exitWith { false };
 
-systemChat format ["AdvAntiTank spawner: %1 class(es) loaded.", count _classList];
-
 private _spawnPoints = [
 	["spawn_adv_antitank_1", "100m"],
 	["spawn_adv_antitank_2", "200m"],
@@ -54,7 +52,6 @@ private _cleanupAction = [
 		{
 			[[], _dummyClass, _x] remoteExecCall ["rdf_fnc_spawnVehiclesAtPoints", 2];
 		} forEach _cleanupKeys;
-		systemChat "AdvAntiTank cleanup fired.";
 	},
 	{ true },
 	{},
@@ -106,12 +103,6 @@ private _cleanupAction = [
 			{
 				private _args = _this select 2;
 				_args params ["_spawnPoints", "_vehicleClass", "_cleanupKey", "_distanceLabel"];
-				systemChat format [
-					"AdvAntiTank action fired: %1 at %2 (%3 points)",
-					_vehicleClass,
-					_distanceLabel,
-					count _spawnPoints
-				];
 				[_spawnPoints, _vehicleClass, _cleanupKey] remoteExecCall ["rdf_fnc_spawnVehiclesAtPoints", 2];
 			},
 			{ true },

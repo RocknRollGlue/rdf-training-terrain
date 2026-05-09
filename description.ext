@@ -1,4 +1,4 @@
-author = "Rockn Roll Glue";
+author = "M. Nyrup";
 OnLoadName = "Training";
 OnLoadMission = "Training until you get bored";
 enableDebugConsole = 0;
@@ -6,44 +6,16 @@ enableDebugConsole = 0;
 #include <configs\cfgMedicalSim.hpp>
 #include <configs\cfgWoundOptions.hpp>
 
-class CfgRDFVehicleSpawners {
-	class AdvAntiTank {
-		classList[] = {
-			"rhs_btr70_vdv",
-			"rhs_t80"
-		};
-	};
+class Header
+{
+	gameType =  Coop;	
+	minPlayers =  1;	
+	maxPlayers = 75;	
 };
-
-class CfgRDFMortarSpawners {
-	class MortarRange {
-		vehicleClasses[] = {
-			"UK3CB_CHD_O_BTR70",
-			"UK3CB_CHD_O_BMD1",
-			"UK3CB_CHD_O_T55"
-		};
-		class InfantryGroups {
-			class Group0 {
-				label = "Infantry";
-				unitClasses[] = {
-					"UK3CB_CHD_O_SL",
-					"UK3CB_CHD_O_RIF_3"
-				};
-			};
-		};
-		class SpawnPoints {
-			class Point1 { name = "spawn_adv_arty_1"; label = "Location 1"; };
-			class Point2 { name = "spawn_adv_arty_2"; label = "Location 2"; };
-			class Point3 { name = "spawn_adv_arty_3"; label = "Location 3"; };
-			class Point4 { name = "spawn_adv_arty_4"; label = "Location 4"; };
-			class Point5 { name = "spawn_adv_arty_5"; label = "Location 5"; };
-			class Point6 { name = "spawn_adv_arty_6"; label = "Location 6"; };
-		};
-	};
-};
-
-class CfgFunctions {
-	class rdf {
+class CfgFunctions
+{
+	#include "modules\grad-persistence\cfgFunctions.hpp"
+    class rdf {
 		class CommonFunctions {
 			class addActionToObjectIfUnique {
 				file = "functions\common\addActionToObjectIfUnique.sqf";
@@ -82,3 +54,120 @@ class CfgFunctions {
 		};
 	};
 };
+class CfgDebriefing
+{
+	class End1
+	{
+        title = "Mission Complete";
+        subtitle = "We did it!";
+		description = "We have successfully completed our mission, good job guys";
+	};
+	class End2
+	{
+		title = "Mission Failed";
+		subtitle = "We failed to complete our mission";
+		description = "We have failed to complete our mission, better luck next time";
+	};
+};
+class ACEX_Fortify_Presets {
+    class Rdfbuild {
+        displayName = "RDF";
+        objects[] = {
+            {"Sandbag", 5},
+            {"Bunker", 50},
+            {"Land_CncBarrierMedium_F",25},
+            {"Land_HBarrier_3_F",100},
+            {"Land_HBarrier_5_F",100},
+            {"Land_HBarrier_Big_F",150},
+			{"Land_fort_rampart",150},
+            {"Land_HBarrier_1_F",150},
+            {"Land_Plank_01_4m_F",10},
+            {"Land_Plank_01_8m_F",10},
+            {"Land_CncShelter_F",50},
+            {"Land_BagBunker_Small_F",25},
+            {"Land_BagBunker_Tower_F",200},
+			{"Land_BagBunker_Large_F",75},
+            {"Land_BagFence_Long_F",10},
+            {"Land_BagFence_Short_F",10},
+            {"Land_BagFence_Round_F",10},
+            {"Land_SandbagBarricade_01_half_F",15},
+            {"Land_SandbagBarricade_01_F",20},
+            {"Land_SandbagBarricade_01_hole_F",25},
+            {"RoadBarrier_F",5},
+			{"CamoNet_BLUFOR_F",15},
+            {"Land_HelipadCircle_F",5}
+        };
+    };
+};
+class CfgGradPersistence {
+    missionTag = "RDF_Training_Map";
+    loadOnMissionStart = 0;
+    missionWaitCondition = "true";
+    playerWaitCondition = "true";
+
+    saveUnits = 0;
+    saveVehicles = 0;
+    saveContainers = 0;
+    saveStatics = 0;
+    saveMarkers = 0;
+    saveTasks = 0;
+    saveTriggers = 0;
+
+    savePlayerInventory = 0;
+    savePlayerDamage = 0;
+    savePlayerPosition = 0;
+    savePlayerMoney = 0;
+
+    saveTeamAccounts = 0;
+    saveTimeAndDate = 0;
+
+    class customVariables {
+        class acex_fortify_budget_west {
+            varName = "acex_fortify_budget_west";
+            varNamespace = "mission";
+            public = 1;
+        };
+        class rdf_money_budget{
+            varName = "rdfBudget";
+            varNamespace = "mission";
+            public = 1;
+        };
+    };
+};
+class CfgRDFVehicleSpawners {
+	class AdvAntiTank {
+		classList[] = {
+			"rhs_btr70_vdv",
+			"rhs_t80"
+		};
+	};
+};
+
+class CfgRDFMortarSpawners {
+	class MortarRange {
+		vehicleClasses[] = {
+			"UK3CB_CHD_O_BTR70",
+			"UK3CB_CHD_O_BMD1",
+			"UK3CB_CHD_O_T55"
+		};
+		class InfantryGroups {
+			class Group0 {
+				label = "Infantry";
+				unitClasses[] = {
+					"UK3CB_CHD_O_SL",
+					"UK3CB_CHD_O_RIF_3"
+				};
+			};
+		};
+		class SpawnPoints {
+			class Point1 { name = "spawn_adv_arty_1"; label = "Location 1"; };
+			class Point2 { name = "spawn_adv_arty_2"; label = "Location 2"; };
+			class Point3 { name = "spawn_adv_arty_3"; label = "Location 3"; };
+			class Point4 { name = "spawn_adv_arty_4"; label = "Location 4"; };
+			class Point5 { name = "spawn_adv_arty_5"; label = "Location 5"; };
+			class Point6 { name = "spawn_adv_arty_6"; label = "Location 6"; };
+		};
+	};
+};
+
+#include "scripts\autoload.hpp"

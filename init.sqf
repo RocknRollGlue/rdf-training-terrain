@@ -3,7 +3,6 @@ if ( hasInterface ) then {
 	[] call rdf_fnc_initMedicalSim;
 
 };
-
 // View Distance Settings
 
 CHVD_allowNoGrass = false; // Set 'false' if you want to disable "Low" option for terrain (default: true)
@@ -19,44 +18,30 @@ CHVD_maxObj = 3500; // Set maximimum object view distance (default: 12000)
 "Prop" setDynamicSimulationDistance 50;
 
 
-//----------------------gaia------------------------------------------------------
-if (isserver) then {call compile preprocessfile "gaia\gaia_init.sqf";};
-
-// We set the markers invisible (if you use more then 100 markers, then increase). Or delete if you want them visible
-for "_x" from 1 to 100 do
-{
-	format ["%1",_x] setMarkerAlpha 0;
-};
-
-//Init UPSMON script
-call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
-// ----------------Sling Loading Locality fix ----------------
 ["lsl_slingLocality", 
-    {
-        params ["_heli", "_object"];
-        private _heliOwner = owner _heli;
-        if (_heliOwner != owner _object) then {
-            _object setOwner _heliOwner;
-            _object_owner = owner _object;
-            diaG_log format ["RDF Sling - Slinged objected changed owner", _heliOwner];
-        };
-    }
+	{
+		params ["_heli", "_object"];
+		private _heliOwner = owner _heli;
+		if (_heliOwner != owner _object) then {
+		_object setOwner _heliOwner;
+		};
+	}
 ] 
 
 call CBA_fnc_addEventHandler;
 
 ["Helicopter", "init", 
-    {
-        params ["_heli"];
+	{
+		params ["_heli"];
 
-        _heli addEventHandler ["RopeAttach",
-        
-        {
-            params ["_heli", "", "_object"];
-            ["lsl_slingLocality", [_heli, _object]] call CBA_fnc_serverEvent;
-        }
-    ];
-    }, true, [], true
+		_heli addEventHandler ["RopeAttach",
+		
+		{
+			params ["_heli", "", "_object"];
+			["lsl_slingLocality", [_heli, _object]] call CBA_fnc_serverEvent;
+		}
+	];
+	}, true, [], true
 ]
 
 call CBA_fnc_addClassEventHandler;
